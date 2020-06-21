@@ -1,0 +1,16 @@
+
+#list-of-results li {
+    padding: 18px 0;
+    list-style: none;
+    border-bottom: 1px solid #8D9896;
+    font-size: 23px;
+    line-height: 23px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    width: 100%;
+}
+.search-wrapper{
+    margin-top: 50px;
+}
