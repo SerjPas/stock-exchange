@@ -50,5 +50,12 @@ function grabElements() {
         }
     };
     insertData();
-
+    (async () => {
+        const {apiKey} = companyProfileStore;
+        let symbol = extractFromUrl('symbol');
+        const SERVER_URL = `https://financialmodelingprep.com/api/v3/historical-price-full/
+        ${symbol}?serietype=line&apikey=${apiKey}`;
+        let data = await callServer(SERVER_URL);
+        console.log(data);
+    })();
 })();
