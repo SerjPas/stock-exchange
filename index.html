@@ -1,39 +1,49 @@
-<!doctype html>
+<!DOCTYPE html>
 
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
     <title>ITC Template</title>
-    <meta name="description" content="Stock Exchange">
-    <meta name="author" content="Serhii Pas">
+    <meta name="description" content="Stock Exchange"/>
+    <meta name="author" content="Serhii Pas"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="stylesheet" href="./css/styles.css">
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="./css/styles.css"/>
 </head>
 <div class="container">
-    <div class="row search-wrapper" >
-        <div class="col d-flex">
-            <form id="input-form" class="form-inline flex-nowrap col-10">
-                <input id="input" class="form-control flex-grow-1  mr-sm-2" type="search" placeholder="Search"
-                       aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-            <div class="spinner-border d-none loader ml-2" role="status">
-                <span class="sr-only"></span>
+    <div class="card align-items-center d-flex flex-column justify-content-center bg-primary">
+        <div class="card-body">
+            <h1 class="text-center">Search Nasdaq Stocks</h1>
+            <div class="row search-wrapper">
+                <div class="col d-flex">
+                    <form id="input-form" class="form-inline flex-nowrap col-10">
+                        <input id="input" class="form-control flex-grow-1 mr-sm-2" type="search" placeholder="Search"
+                               aria-label="Search"/>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                            Search
+                        </button>
+                    </form>
+                    <div class="spinner-border d-none loader ml-2" role="status">
+                        <span class="sr-only"></span>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <div>
-                <ul id="list-of-results" class="pl-0">
-                </ul>
+            <div class="row">
+                <div class="col">
+                    <div id="list-of-results">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <body>
+
+
 <script src="./js/scripts.js"></script>
+
 </body>
+
 </html>

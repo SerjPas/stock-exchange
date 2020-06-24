@@ -2,44 +2,49 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Company</title>
-    <meta name="description" content="Stock Exchange" />
-    <meta name="author" content="Serhii Pas" />
+    <meta name="description" content="Stock Exchange"/>
+    <meta name="author" content="Serhii Pas"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
-    <link rel="stylesheet" href="./css/styles.css" />
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="./css/styles.css"/>
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="media container">
-                    <img id="company-img" src="" class="align-self-start mr-3" alt="Generic placeholder image" />
-                    <div class="media-body">
-                        <h5 id="company-name" class="mt-0">Media heading</h5>
-                        <a id="company-link"></a>
-                        <p><span id="stock-price"></span><span class="ml-3" id="stock-changes"></span></p>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="media container">
+                        <img id="company-img" src="" class="align-self-start mr-3" alt="Generic placeholder image"/>
+                        <div class="media-body">
+                            <h2 id="company-name" class="mt-0"></h2>
+                            <a id="company-link"></a>
+                            <p><span id="stock-price"></span><span class="ml-3" id="stock-changes"></span></p>
+                        </div>
+                        <div class="spinner-border d-none loader ml-2" role="status">
+                            <span class="sr-only"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="container">
+                        <p id="description"></p>
+                    </div>
+                    <div class="container">
+                        <canvas id="myChart" width="500" height="250"></canvas>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-6 col-sm-12">
-                <div class="container">
-                    <p id="description"></p>
-                </div>
-            </div>
-            <div class="col-lg-6 col-sm-12">
-                <div class="container">
-                    <canvas id="myChart" width="400" height="400"></canvas>
-                </div>
-                </div>
-            </div>     
-        </div>
-</body>
-<script src="./js/company.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
+    <script src="./js/company.js"></script>
+
+</body>
 </html>
