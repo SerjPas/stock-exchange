@@ -30,6 +30,7 @@
             img.style.height = '80px';
             img.style.width = '80px';
             img.classList.add('mr-2');
+            img.classList.add('img-fluid');
             let aTag = document.createElement('a');
             let text = `${objectInsideArray[0].companyName}. (${objectInsideArray[0].symbol})`;
             aTag.append(text);
