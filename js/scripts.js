@@ -6,7 +6,9 @@
         StockExchangeStore.listOfResults = document.querySelector('#list-of-results');
         StockExchangeStore.form = document.querySelector('#input-form');
         StockExchangeStore.loader = document.querySelector('.loader');
+        StockExchangeStore.marquee = document.querySelector('.marquee-text');
         StockExchangeStore.apiKey = "ed93f3e229380c530b7a0e7663f86b99";
+
 
     }
 
@@ -39,8 +41,8 @@
             let span = document.createElement('span');
             let stockChange = `(${objectInsideArray[0].changes})`;
             span.append(stockChange);
-            if (objectInsideArray[0].changes < 0){
-                span.style.color = 'red' ;
+            if (objectInsideArray[0].changes < 0) {
+                span.style.color = 'red';
             } else {
                 span.style.color = '#90EE90';
             }
@@ -68,9 +70,46 @@
         hideElement(loader);
     }
 
+    // let intervalTime = 60;
+    // setInterval(async () => {
+    //      await callServer(
+    //         `https://financialmodelingprep.com/api/v3/quotes/nyse?apikey=${apiKey}`,
+    //     );
+    // }, 1000 * intervalTime);
+
+    const getRealTimeStock = async () => {
+        const {apiKey} = StockExchangeStore;
+        let result = await callServer(
+            `https://financialmodelingprep.com/api/v3/quotes/nyse?apikey=${apiKey}`,
+        );
+        drawOutput(result);
+    }
+
+    function drawOutput(realTimeStock) {
+        const {marquee} = StockExchangeStore;
+        let fragment = new DocumentFragment();
+        realTimeStock.map((objectInsideRealTimeStock) =>{
+            let spanForSymbol = document.createElement('span');
+            let spanForPrice = document.createElement('span');
+            spanForSymbol.classList.add('mr-2');
+            spanForPrice.classList.add('mr-2');
+            spanForPrice.style.color = 'green';
+
+            let stockSymbol = `${objectInsideRealTimeStock.symbol}`;
+            let stockPrice = `(${objectInsideRealTimeStock.price})`;
+            spanForSymbol.append(stockSymbol);
+            spanForPrice.append(stockPrice);
+            fragment.appendChild(spanForSymbol);
+            fragment.appendChild(spanForPrice);
+        });
+        marquee.appendChild(fragment);
+    }
+
+    document.addEventListener('DOMContentLoaded', getRealTimeStock);
     (() => {
         const {form} = StockExchangeStore;
         form.addEventListener("submit", callResultsFromServer);
     })();
+
 
 })();
