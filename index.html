@@ -14,10 +14,9 @@
 </head>
 <body>
 <div class="main">
-    <div class="marquee">
-        <p class="marquee-text"> </p>
+    <div id="marquee">
     </div>
-    <div class="container-fluid container-lg h-100">
+    <div class="container-fluid container-lg vh-100">
         <div class="card wrapper row align-items-center d-flex flex-column justify-content-center bg-primary">
             <div class="card-body col">
                 <h1 class="text-center sub">Search Nasdaq Stocks</h1>
@@ -46,5 +45,13 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 <script src="./js/scripts.js"></script>
+<script src="./js/Marquee.js"></script>
+
+<script>
+    (async function () {
+        const marquee = new Marquee(document.getElementById('marquee'));
+        await marquee.getRealTimeStock();
+    })();
+</script>
 </body>
 </html>
