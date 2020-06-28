@@ -25,7 +25,7 @@ body {
     width: 100%;
 }
 .wrapper {
-    max-width: 1170px;
+
     padding-left: 16px;
     padding-right: 16px;
     margin-left: auto;
@@ -64,6 +64,11 @@ body {
 
 .main {
     flex-grow: 1;
+}
+.imgOnSearchResults{
+    height: 80px;
+    width: 80px;
+
 }
 footer {
     flex-shrink: 0;

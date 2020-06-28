@@ -12,45 +12,47 @@
     <link rel="shortcut icon" type="image/png" href="/logo/favicon.png"/>
     <link rel="stylesheet" href="./css/styles.css"/>
 </head>
-<body>
-<div class="main">
-    <div id="marquee">
-    </div>
-    <div class="container-fluid container-lg vh-100">
-        <div class="card wrapper row align-items-center d-flex flex-column justify-content-center bg-primary">
-            <div class="card-body col">
-                <h1 class="text-center sub">Search Nasdaq Stocks</h1>
-                <form id="input-form" class="form-inline flex-nowrap ml-0 col-10">
-                    <input id="input" class="form-control flex-grow-1 mr-sm-2" type="search" placeholder="Search"
-                           aria-label="Search"/>
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                        Search
-                    </button>
-                </form>
-                <div class="text-center m-3">
-                    <div class="spinner-border d-none loader ml-auto" role="status" aria-hidden="true"></div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div id="list-of-results">
-                        </div>
-                    </div>
-                </div>
-            </div>
+<body class="container-fluid">
+<div id="marquee"></div>
+<div class="card wrapper row align-items-center d-flex flex-column justify-content-center bg-primary">
+    <div class="card-body col">
+        <h1 class="text-center sub">Search Nasdaq Stocks</h1>
+        <div id="searchForm" class="container">
+        </div>
+        <div id="list-of-results" class="container">
         </div>
     </div>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
 <script src="./js/scripts.js"></script>
 <script src="./js/Marquee.js"></script>
-
+<script src="./js/SearchForm.js"></script>
+<script src="./js/SearchResults.js"></script>
 <script>
     (async function () {
-        const marquee = new Marquee(document.getElementById('marquee'));
-        await marquee.getRealTimeStock();
+        const {apiKey} = StockExchangeStore;
+        const marquee = new Marquee(document.getElementById('marquee'), `https://financialmodelingprep.com/api/v3/quotes/nyse?apikey=${apiKey}`);
+        await marquee.load();
+        console.log('marquee loaded');
+        const form = new SearchForm(document.getElementById('searchForm'));
+        console.log('SearchForm created');
+        form.renderSearchForm();
+        console.log('form rendered');
+        const results = new SearchResults(document.getElementById('list-of-results'));
+        document.getElementById("input-form").onsubmit = function (e) {
+            e.preventDefault();
+            results.renderResults();
+        };
+
+
     })();
 </script>
 </body>

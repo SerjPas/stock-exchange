@@ -1,30 +1,28 @@
 class Marquee {
-    constructor(marquee) {
+    constructor(marquee, url) {
         this.marquee = marquee;
+        this.url = url;
 
     }
 
-    getRealTimeStock = async () => {
-        const {apiKey} = StockExchangeStore;
-        let result = await callServer(
-            `https://financialmodelingprep.com/api/v3/quotes/nyse?apikey=${apiKey}`,
-        );
+    load = async () => {
+        let result = await callServer(this.url);
         let fragment = new DocumentFragment();
         let marqueeForRealTimeStock = document.createElement('marquee')
         result.map((objectInsideRealTimeStock) => {
-            let spanForSymbol = document.createElement('span');
-            let spanForPrice = document.createElement('span');
-            spanForSymbol.classList.add('mr-2');
-            spanForPrice.classList.add('mr-2');
-            spanForPrice.style.color = 'green';
+            let symbolSpan = document.createElement('span');
+            let priceSpan = document.createElement('span');
+            symbolSpan.classList.add('mr-2');
+            priceSpan.classList.add('mr-2');
+            addStyle(priceSpan, 'green');
             let stockSymbol = `${objectInsideRealTimeStock.symbol}`;
             let stockPrice = `($ ${objectInsideRealTimeStock.price})`;
-            spanForSymbol.append(stockSymbol);
-            spanForPrice.append(stockPrice);
-            fragment.appendChild(spanForSymbol);
-            fragment.appendChild(spanForPrice);
+            symbolSpan.append(stockSymbol);
+            priceSpan.append(stockPrice);
+            fragment.appendChild(symbolSpan);
+            fragment.appendChild(priceSpan);
         });
         marqueeForRealTimeStock.appendChild(fragment);
-        marquee.appendChild(marqueeForRealTimeStock);
+        this.marquee.appendChild(marqueeForRealTimeStock);
     }
 }

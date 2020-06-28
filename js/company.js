@@ -5,17 +5,17 @@ let link = document.querySelector('#company-link');
 let stockPrice = document.querySelector('#stock-price');
 let stockChanges = document.querySelector('#stock-changes');
 let apiKey = "ed93f3e229380c530b7a0e7663f86b99";
-let loader = document.querySelector('.loader');
+let loader = document.querySelector('#loader');
 
 const showElement = (element) => element.classList.remove("d-none");
 const hideElement = (element) => element.classList.add("d-none");
 
-const extractFromUrl = (key) => {
+const getParams = (key) => {
     let urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(key);
 };
 const createCompanyProfileUrl = () => {
-    let symbol = extractFromUrl('symbol');
+    let symbol = getParams('symbol');
     return new URL(`https://financialmodelingprep.com/api/v3/profile/${symbol}?apikey=${apiKey}`);
 }
 
@@ -25,7 +25,7 @@ async function callServer(SERVER_URL) {
 }
 
 const getStockHistory = async () => {
-    let symbol = extractFromUrl('symbol');
+    let symbol = getParams('symbol');
     const SERVER_URL = `https://financialmodelingprep.com/api/v3/historical-price-full/${symbol}?serietype=line&apikey=${apiKey}`;
     let stockHistoryArray = await callServer(SERVER_URL);
     return stockHistoryArray.historical;
@@ -71,18 +71,18 @@ const insertData = async () => {
         stockPrice.innerText = 'Stock price:' + '$' + company.price;
         if (company.changes < 0) {
             stockChanges.innerText = `(${company.changes} %)`;
-            stockChanges.style.color = 'red' ;
+            stockChanges.style.color = 'red';
         } else {
             stockChanges.innerText = `(${company.changes} %)`;
-            stockChanges.style.color ='#90EE90';
+            stockChanges.style.color = '#90EE90';
         }
     }
-   
-    createAChart();
+
+    await createAChart();
 }
 (async () => {
-    showElement(loader);
+    // showElement(loader);
     await insertData();
-    hideElement(loader);
+    // hideElement(loader);
 })();
 
