@@ -3,7 +3,6 @@ class SearchResults {
         this.placeForResult = placeForResult;
     }
 
-
     renderResults = async (array) => {
         let loader = document.querySelector('#loader');
         showElement(loader);
