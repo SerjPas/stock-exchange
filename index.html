@@ -13,12 +13,11 @@
     <link rel="stylesheet" href="./css/styles.css"/>
 </head>
 <body class="container-fluid">
-
-    <div id="marquee"></div>
-    <div class="card wrapper row align-items-center d-flex flex-column justify-content-center bg-primary">
+    <div id="marquee" class="row"></div>
+    <div class="card h-75 row">
         <h1 class="text-center sub">Search Nasdaq Stocks</h1>
-        <div id="searchForm" class="container"></div>
-        <div id="list-of-results" class="container"></div>
+        <div id="form" class="container"></div>
+        <div id="results" class="container"></div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -34,14 +33,15 @@
     <script src="./js/Marquee.js"></script>
     <script src="./js/SearchForm.js"></script>
     <script src="./js/SearchResults.js"></script>
+
     <script>
     (async function () {
         const {apiKey} = StockExchangeStore;
         const marquee = new Marquee(document.getElementById('marquee'), `https://financialmodelingprep.com/api/v3/quotes/nyse?apikey=${apiKey}`);
         await marquee.load();
-        const form = new SearchForm(document.getElementById('searchForm'));
+        const form = new SearchForm(document.getElementById('form'));
         form.renderSearchForm();
-        const results = new SearchResults(document.getElementById('list-of-results'));
+        const results = new SearchResults(document.getElementById('results'));
         form.onSearch(results.renderResults);
 
     })();

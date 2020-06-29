@@ -25,8 +25,8 @@ class SearchResults {
     }
 
     renderResults = async () => {
-        const {loader} = StockExchangeStore;
-        // await showElement(loader);
+        let loader = document.querySelector('#loader');
+        showElement(loader);
         let companies = await this.callResultsFromServer();
         this.refreshResults();
         let fragment = new DocumentFragment();
@@ -51,6 +51,7 @@ class SearchResults {
             fragment.appendChild(ul);
         });
         this.placeForResult.appendChild(fragment);
+        hideElement(loader);
     }
 
     isChangesLessThanZero = (object, span) => {

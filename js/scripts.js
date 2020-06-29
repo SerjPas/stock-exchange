@@ -3,11 +3,14 @@ let StockExchangeStore = {};
 grabElements();
 
 function grabElements() {
-    StockExchangeStore.listOfResults = document.querySelector('#list-of-results');
-    StockExchangeStore.form = document.querySelector('#input-form');
-    StockExchangeStore.loader = document.querySelector('#loader');
     StockExchangeStore.apiKey = "ed93f3e229380c530b7a0e7663f86b99";
-    StockExchangeStore.searchForm = document.querySelector('#searchForm');
+    StockExchangeStore.img = document.querySelector("#company-img");
+    StockExchangeStore.companyName = document.querySelector("#company-name");
+    StockExchangeStore.description = document.querySelector("#description");
+    StockExchangeStore.link = document.querySelector('#company-link');
+    StockExchangeStore.stockPrice = document.querySelector('#stock-price');
+    StockExchangeStore.stockChanges = document.querySelector('#stock-changes');
+
 }
 
 const callServer = async (SERVER_URL) => {

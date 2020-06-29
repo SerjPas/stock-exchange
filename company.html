@@ -14,7 +14,7 @@
 
 <body>
 <div class="container-fluid container-lg vh-100">
-    <div class="card row align-items-center d-flex flex-column justify-content-center bg-primary">
+    <div class="card row d-flex flex-column bg-primary">
         <div class="card-body col">
             <div class="row">
                 <div class="col">
@@ -25,7 +25,7 @@
                             <a id="company-link"></a>
                             <p><span id="stock-price"></span><span class="ml-3" id="stock-changes"></span></p>
                         </div>
-                        <div class="spinner-border d-none loader ml-2" role="status">
+                        <div class="spinner-border d-none ml-2" id="loader" role="status">
                             <span class="sr-only"></span>
                         </div>
                     </div>
@@ -53,6 +53,7 @@
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="./js/scripts.js"></script>
     <script src="./js/company.js"></script>
 </body>
 </html>

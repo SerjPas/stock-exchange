@@ -1,30 +1,15 @@
-let img = document.querySelector("#company-img");
-let companyName = document.querySelector("#company-name");
-let description = document.querySelector("#description");
-let link = document.querySelector('#company-link');
-let stockPrice = document.querySelector('#stock-price');
-let stockChanges = document.querySelector('#stock-changes');
-let apiKey = "ed93f3e229380c530b7a0e7663f86b99";
-let loader = document.querySelector('#loader');
-
-// const showElement = (element) => element.classList.remove("d-none");
-// const hideElement = (element) => element.classList.add("d-none");
-
 const getParams = (key) => {
     let urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(key);
 };
 const createCompanyProfileUrl = () => {
+    const {apiKey} = StockExchangeStore;
     let symbol = getParams('symbol');
     return new URL(`https://financialmodelingprep.com/api/v3/profile/${symbol}?apikey=${apiKey}`);
 }
 
-const callServer = async (SERVER_URL) => {
-    const response = await fetch(SERVER_URL);
-    return response.json();
-}
-
 const getStockHistory = async () => {
+    const {apiKey} = StockExchangeStore;
     let symbol = getParams('symbol');
     const SERVER_URL = `https://financialmodelingprep.com/api/v3/historical-price-full/${symbol}?serietype=line&apikey=${apiKey}`;
     let stockHistoryArray = await callServer(SERVER_URL);
@@ -59,6 +44,7 @@ const createAChart = async () => {
 }
 
 const insertData = async () => {
+    const {img, companyName, description, link, stockPrice, stockChanges} = StockExchangeStore;
     let profileUrl = createCompanyProfileUrl();
     let data = await callServer(profileUrl);
     for (let company of data) {
@@ -81,8 +67,9 @@ const insertData = async () => {
     await createAChart();
 }
 (async () => {
-    // showElement(loader);
+    let loader = document.querySelector('#loader');
+    showElement(loader);
     await insertData();
-    // hideElement(loader);
+    hideElement(loader);
 })();
 
