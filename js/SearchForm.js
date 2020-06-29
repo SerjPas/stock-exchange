@@ -1,7 +1,6 @@
 class SearchForm {
     constructor(form) {
         this.form = form;
-
     }
 
     renderSearchForm = () => {
@@ -36,12 +35,44 @@ class SearchForm {
         fragment.appendChild(divWrapper);
         this.form.appendChild(fragment);
     }
-
-    onSearch = (callback) => {
-        document.getElementById("input-form").onsubmit = function (e) {
-            e.preventDefault();
-            callback();
-        };
+    getInputValue = () => {
+        console.log("I am inside getInputValue");
+        return document.querySelector("#input").value;
     }
 
+    isInputValid = (input) => {
+        console.log("I am inside isInputValid");
+        return (input.length > 0);
+    }
+
+    callResultsFromServer = async () => {
+        console.log("I am inside callResultsFromServer");
+        const {apiKey} = StockExchangeStore;
+        let inputValue = this.getInputValue();
+        if (this.isInputValid(inputValue)) {
+            const symbolUrl = `https://financialmodelingprep.com/api/v3/search?query=${inputValue}&limit=10&exchange=NASDAQ&apikey=${apiKey}`;
+            let result = await callServer(symbolUrl);
+            console.log(result);
+            return await Promise.all(result.map(async (company) => {
+                let companyUrl = `https://financialmodelingprep.com/api/v3/profile/${company.symbol}?apikey=${apiKey}`;
+                company.additionalResult = await callServer(companyUrl);
+                console.log(company.additionalResult);
+                return company.additionalResult;
+            }));
+        } else {
+            console.log('Input not valid!')
+        }
+
+    }
+    
+    onSearch = async (callback) => {
+        console.log("I am inside onSerch");
+        document.getElementById("input-form").onsubmit = async (e) => {
+            console.log("I am inside nested func");
+            e.preventDefault();
+            let companies = await this.callResultsFromServer();
+            console.log(companies);
+            callback(companies);
+        };
+    }
 }

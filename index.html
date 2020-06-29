@@ -39,10 +39,14 @@
         const {apiKey} = StockExchangeStore;
         const marquee = new Marquee(document.getElementById('marquee'), `https://financialmodelingprep.com/api/v3/quotes/nyse?apikey=${apiKey}`);
         await marquee.load();
+        console.log("marquee loaded");
         const form = new SearchForm(document.getElementById('form'));
         form.renderSearchForm();
+        console.log("form loaded");
         const results = new SearchResults(document.getElementById('results'));
-        form.onSearch(results.renderResults);
+        await form.onSearch((companies) => {
+            results.renderResults(companies);
+        });
 
     })();
     </script>
