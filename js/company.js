@@ -7,8 +7,8 @@ let stockChanges = document.querySelector('#stock-changes');
 let apiKey = "ed93f3e229380c530b7a0e7663f86b99";
 let loader = document.querySelector('#loader');
 
-const showElement = (element) => element.classList.remove("d-none");
-const hideElement = (element) => element.classList.add("d-none");
+// const showElement = (element) => element.classList.remove("d-none");
+// const hideElement = (element) => element.classList.add("d-none");
 
 const getParams = (key) => {
     let urlParams = new URLSearchParams(window.location.search);
@@ -19,7 +19,7 @@ const createCompanyProfileUrl = () => {
     return new URL(`https://financialmodelingprep.com/api/v3/profile/${symbol}?apikey=${apiKey}`);
 }
 
-async function callServer(SERVER_URL) {
+const callServer = async (SERVER_URL) => {
     const response = await fetch(SERVER_URL);
     return response.json();
 }

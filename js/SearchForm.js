@@ -1,9 +1,10 @@
 class SearchForm {
     constructor(form) {
         this.form = form;
+
     }
 
-    renderSearchForm() {
+    renderSearchForm = () => {
         let fragment = new DocumentFragment();
         let form = document.createElement('form');
         let input = document.createElement('input');
@@ -24,7 +25,7 @@ class SearchForm {
         this.renderSpinner();
     }
 
-    renderSpinner() {
+    renderSpinner = () => {
         let fragment = new DocumentFragment();
         let divWrapper = document.createElement('div');
         let divContent = document.createElement('div');
@@ -36,8 +37,11 @@ class SearchForm {
         this.form.appendChild(fragment);
     }
 
-    onSearch() { //need to impl
-
+    onSearch = (callback) => {
+        document.getElementById("input-form").onsubmit = function (e) {
+            e.preventDefault();
+            callback();
+        };
     }
 
 }

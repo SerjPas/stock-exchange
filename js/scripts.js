@@ -8,17 +8,17 @@ function grabElements() {
     StockExchangeStore.loader = document.querySelector('#loader');
     StockExchangeStore.apiKey = "ed93f3e229380c530b7a0e7663f86b99";
     StockExchangeStore.searchForm = document.querySelector('#searchForm');
-
 }
 
-async function callServer(SERVER_URL) {
+const callServer = async (SERVER_URL) => {
     const response = await fetch(SERVER_URL);
     return await response.json();
 }
 
-function addStyle(span, color) {
+const addStyle = (span, color) => {
     span.style.color = color;
 }
-
+const showElement = (element) => element.classList.remove("d-none");
+const hideElement = (element) => element.classList.add("d-none");
 
 
