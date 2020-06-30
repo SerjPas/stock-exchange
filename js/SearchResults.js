@@ -9,9 +9,9 @@ class SearchResults {
         let ul = document.createElement('ul');
         ul.className = 'list-group list-group-flush';
         this.placeForResult.appendChild(ul);
-        array.map((objectInsideArray) => {
+        array.map((companies) => {
             let searchValue = document.getElementById('input').value;
-            let {highlightedCompanyName, highlightedSymbol} = this.highlight(objectInsideArray, searchValue);
+            let {highlightedCompanyName, highlightedSymbol} = this.highlight(companies, searchValue);
             let li = document.createElement('li');
             li.className = 'list-group-item d-flex align-items-center';
             let img = document.createElement('img');
@@ -21,19 +21,29 @@ class SearchResults {
             let button = document.createElement('button');
             button.innerText = 'compare';
             button.className = 'btn btn-outline-success my-2 my-sm-0 ml-auto';
-            img.src = `${objectInsideArray[0].image}`;
+            button.addEventListener('click', (() => {
+                this.printObject(companies);
+            }));
+            img.src = `${companies[0].image}`;
             img.classList.add('mr-2', 'img-fluid', 'imgOnSearchResults');
             companyNameSpan.innerHTML = `${highlightedCompanyName}. (${highlightedSymbol})`;
             companiesLink.append(companyNameSpan);
-            companiesLink.href = `./company.html?symbol=${objectInsideArray[0].symbol}`;
+            companiesLink.href = `./company.html?symbol=${companies[0].symbol}`;
             companiesLink.target = `_blank`;
-            let stockChange = `(${objectInsideArray[0].changes})`;
+            let stockChange = `(${companies[0].changes})`;
             priceSpan.append(stockChange);
-            isChangesLessThanZero(objectInsideArray, priceSpan);
+            isChangesLessThanZero(companies, priceSpan);
             priceSpan.classList.add('ml-2');
             li.append(img, companiesLink, priceSpan, button);
             ul.appendChild(li);
         });
+    }
+
+    printObject(array) {
+        array.forEach((company) => {
+            console.log(company);
+        });
+
     }
 
     highlight(objectInsideArray, searchValue) {
