@@ -25,7 +25,7 @@ class SearchResults {
             companiesLink.target = `_blank`;
             let stockChange = `(${objectInsideArray[0].changes})`;
             priceSpan.append(stockChange);
-            this.isChangesLessThanZero(objectInsideArray, priceSpan);
+            isChangesLessThanZero(objectInsideArray, priceSpan);
             priceSpan.classList.add('ml-2');
             li.append(img, companiesLink, priceSpan);
             ul.appendChild(li);
@@ -40,13 +40,6 @@ class SearchResults {
         return {highlightedCompanyName, highlightedSymbol};
     }
 
-    isChangesLessThanZero = (object, span) => {
-        if (object[0].changes < 0) {
-            addStyle(span, 'red');
-        } else {
-            addStyle(span, '#90EE90');
-        }
-    }
 
     refreshResults = () => {
         this.placeForResult.innerText = '';

@@ -32,7 +32,8 @@ body {
     padding: 20px 40px 25px;
     transition-timing-function: linear;
 }
-.list-group-item{
+
+.list-group-item {
     background-color: transparent;
 }
 
@@ -42,7 +43,6 @@ body {
     justify-content: center;
     padding: 1rem;
     min-height: 100px;
-
 }
 
 #input {
@@ -51,6 +51,9 @@ body {
 }
 
 #marquee {
+    --offset: 20vw;
+    --move-initial: calc(-25% + var(--offset));
+    --move-final: calc(-50% + var(--offset));
     display: block;
     width: 100%;
     white-space: nowrap;
@@ -59,16 +62,44 @@ body {
     position: absolute;
 }
 
-.main {
-    flex-grow: 1;
+.marquee-inner {
+    width: fit-content;
+    display: flex;
+    position: relative;
+    transform: translate3d(var(--move-initial), 0, 0);
+    animation: marquee 1800s linear infinite;
+    animation-play-state: running;
 }
+
+.marquee span {
+    text-wrap: none;
+}
+
+#marquee:hover .marquee-inner {
+    animation-play-state: paused;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translate3d(var(--move-initial), 0, 0);
+    }
+
+    100% {
+        transform: translate3d(var(--move-final), 0, 0);
+    }
+}
+
+.green {
+    color: lightgreen;
+}
+
 
 .imgOnSearchResults {
     height: 60px;
     width: 60px;
-
 }
-mark{
+
+mark {
     background-color: #FFFF00;
 }
 

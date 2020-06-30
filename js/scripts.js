@@ -24,4 +24,11 @@ const addStyle = (span, color) => {
 const showElement = (element) => element.classList.remove("d-none");
 const hideElement = (element) => element.classList.add("d-none");
 
+const isChangesLessThanZero = (object, span) => {
+    if (object[0].changes < 0) {
+        addStyle(span, 'red');
+    } else {
+        addStyle(span, '#90EE90');
+    }
+}
 

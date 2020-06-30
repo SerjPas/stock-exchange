@@ -2,13 +2,13 @@ class Marquee {
     constructor(marquee, url) {
         this.marquee = marquee;
         this.url = url;
-
     }
 
     load = async () => {
         let result = await callServer(this.url);
         let fragment = new DocumentFragment();
-        let marqueeForRealTimeStock = document.createElement('marquee')
+        let marqueeForRealTimeStock = document.createElement('div');
+        marqueeForRealTimeStock.className = 'marquee-inner d-flex';
         result.map((objectInsideRealTimeStock) => {
             let symbolSpan = document.createElement('span');
             let priceSpan = document.createElement('span');
@@ -19,8 +19,7 @@ class Marquee {
             let stockPrice = `($ ${objectInsideRealTimeStock.price})`;
             symbolSpan.append(stockSymbol);
             priceSpan.append(stockPrice);
-            fragment.appendChild(symbolSpan);
-            fragment.appendChild(priceSpan);
+            fragment.append(symbolSpan, priceSpan);
         });
         marqueeForRealTimeStock.appendChild(fragment);
         this.marquee.appendChild(marqueeForRealTimeStock);
