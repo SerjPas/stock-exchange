@@ -24,11 +24,33 @@ const addStyle = (span, color) => {
 const showElement = (element) => element.classList.remove("d-none");
 const hideElement = (element) => element.classList.add("d-none");
 
+const getInputValue = () => {
+    return document.querySelector("#input").value;
+}
+
+const isInputValid = (input) => {
+    return (input.length > 0);
+}
+
 const isChangesLessThanZero = (object, span) => {
     if (object[0].changes < 0) {
         addStyle(span, 'red');
     } else {
         addStyle(span, '#90EE90');
+    }
+}
+
+const callResultsFromServer = async () => {
+    const {apiKey} = StockExchangeStore;
+    let inputValue = getInputValue();
+    if (isInputValid(inputValue)) {
+        const symbolUrl = `https://financialmodelingprep.com/api/v3/search?query=${inputValue}&limit=10&exchange=NASDAQ&apikey=${apiKey}`;
+        let result = await callServer(symbolUrl);
+        return await Promise.all(result.map(async (company) => {
+            let companyUrl = `https://financialmodelingprep.com/api/v3/profile/${company.symbol}?apikey=${apiKey}`;
+            company.additionalResult = await callServer(companyUrl);
+            return company.additionalResult;
+        }));
     }
 }
 

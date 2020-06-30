@@ -35,34 +35,13 @@ class SearchForm {
         fragment.appendChild(divWrapper);
         this.form.appendChild(fragment);
     }
-    getInputValue = () => {
-        return document.querySelector("#input").value;
-    }
-
-    isInputValid = (input) => {
-        return (input.length > 0);
-    }
-
-    callResultsFromServer = async () => {
-        const {apiKey} = StockExchangeStore;
-        let inputValue = this.getInputValue();
-        if (this.isInputValid(inputValue)) {
-            const symbolUrl = `https://financialmodelingprep.com/api/v3/search?query=${inputValue}&limit=10&exchange=NASDAQ&apikey=${apiKey}`;
-            let result = await callServer(symbolUrl);
-            return await Promise.all(result.map(async (company) => {
-                let companyUrl = `https://financialmodelingprep.com/api/v3/profile/${company.symbol}?apikey=${apiKey}`;
-                company.additionalResult = await callServer(companyUrl);
-                return company.additionalResult;
-            }));
-        }
-    }
 
     onSearch = async (callback) => {
         document.getElementById("input-form").onsubmit = async (e) => {
             let loader = document.querySelector('#loader');
             e.preventDefault();
             showElement(loader);
-            let companies = await this.callResultsFromServer();
+            let companies = await callResultsFromServer();
             callback(companies);
             hideElement(loader);
         };
