@@ -4,32 +4,40 @@ class SearchResults {
     }
 
     renderResults = async (array) => {
-        let loader = document.querySelector('#loader');
-        showElement(loader);
         this.refreshResults();
-        let fragment = new DocumentFragment();
         let ul = document.createElement('ul');
+        ul.className = 'list-group list-group-flush';
+        this.placeForResult.appendChild(ul);
         array.map((objectInsideArray) => {
-            let liTag = document.createElement('li');
+            let searchValue = document.getElementById('input').value;
+            let {highlightedCompanyName, highlightedSymbol} = this.highlight(objectInsideArray, searchValue);
+            let li = document.createElement('li');
+            li.className = 'list-group-item';
             let img = document.createElement('img');
-            let spanWithText = document.createElement('span');
+            let priceSpan = document.createElement('span');
+            let companyNameSpan = document.createElement('span');
             let companiesLink = document.createElement('a');
             img.src = `${objectInsideArray[0].image}`;
             img.classList.add('mr-2', 'img-fluid', 'imgOnSearchResults');
-            let text = `${objectInsideArray[0].companyName}. (${objectInsideArray[0].symbol})`;
-            companiesLink.append(text);
+            companyNameSpan.innerHTML = `${highlightedCompanyName}. (${highlightedSymbol})`;
+            companiesLink.append(companyNameSpan);
             companiesLink.href = `./company.html?symbol=${objectInsideArray[0].symbol}`;
             companiesLink.target = `_blank`;
             let stockChange = `(${objectInsideArray[0].changes})`;
-            spanWithText.append(stockChange);
-            this.isChangesLessThanZero(objectInsideArray, spanWithText);
-            spanWithText.classList.add('ml-2');
-            liTag.append(img, companiesLink, spanWithText);
-            ul.appendChild(liTag);
-            fragment.appendChild(ul);
+            priceSpan.append(stockChange);
+            this.isChangesLessThanZero(objectInsideArray, priceSpan);
+            priceSpan.classList.add('ml-2');
+            li.append(img, companiesLink, priceSpan);
+            ul.appendChild(li);
         });
-        this.placeForResult.appendChild(fragment);
-        hideElement(loader);
+    }
+
+    highlight(objectInsideArray, searchValue) {
+        let highlightedCompanyName = objectInsideArray[0].companyName.replace(new RegExp(searchValue, "gi"),
+            (matchName) => (`<mark> ${matchName} </mark> `));
+        let highlightedSymbol = objectInsideArray[0].symbol.replace(new RegExp(searchValue, "gi"),
+            (matchName) => (`<mark> ${matchName} </mark>`));
+        return {highlightedCompanyName, highlightedSymbol};
     }
 
     isChangesLessThanZero = (object, span) => {

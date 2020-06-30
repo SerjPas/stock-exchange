@@ -59,9 +59,12 @@ class SearchForm {
 
     onSearch = async (callback) => {
         document.getElementById("input-form").onsubmit = async (e) => {
+            let loader = document.querySelector('#loader');
             e.preventDefault();
+            showElement(loader);
             let companies = await this.callResultsFromServer();
             callback(companies);
+            hideElement(loader);
         };
     }
 }
