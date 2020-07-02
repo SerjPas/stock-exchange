@@ -14,26 +14,6 @@ function grabElements() {
 
 }
 
-async function searchNasdaqForSymbol(searchTerm) {
-    const {apiKey, baseUrl} = StockExchangeStore;
-    let url = `${baseUrl}/search?query=${searchTerm}&limit=10&exchange=NASDAQ&apikey=${apiKey}`;
-    return callServer(url);
-}
-
-async function fetchCompanyProfile(symbol) {
-    const {apiKey, baseUrl} = StockExchangeStore;
-    let url = `${baseUrl}/company/profile/${symbol}?apikey=${apiKey}`
-    return callServer(url);
-}
-
-async function searchNasdaqWithProfile(searchTerm) {
-    const companies = await searchNasdaqForSymbol(searchTerm);
-    const fetchCompaniesProfiles = companies.map(company => {
-        return fetchCompanyProfile(company.symbol);
-    });
-    return await Promise.all(fetchCompaniesProfiles);
-}
-
 const callServer = async (SERVER_URL) => {
     const response = await fetch(SERVER_URL);
     return await response.json();
@@ -52,5 +32,8 @@ const isChangesLessThanZero = (object, span) => {
         addStyle(span, '#90EE90');
     }
 }
-
+async function searchInInternalServer(searchTerm) {
+    const response = await fetch(`http://localhost:3000/search?query=${searchTerm}`);
+    return await response.json();
+}
 

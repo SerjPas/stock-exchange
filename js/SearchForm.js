@@ -28,7 +28,6 @@ class SearchForm {
             const input = document.querySelector('#input');
             this.searchCompanies(input.value);
         });
-
         this.form.appendChild(fragment);
         this.renderSpinner();
     }
@@ -46,7 +45,7 @@ class SearchForm {
     }
 
     async searchCompanies(searchTerm) {
-        const companies = await searchNasdaqWithProfile(searchTerm);
+        const companies = await searchInInternalServer(searchTerm);
         this.onSearchCallback(companies);
     }
 
