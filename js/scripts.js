@@ -33,7 +33,7 @@ const isChangesLessThanZero = (object, span) => {
     }
 }
 async function searchInInternalServer(searchTerm) {
-    const response = await fetch(`http://localhost:3000/search?query=${searchTerm}`);
-    return await response.json();
+    let url = `http://localhost:3000/search?query=${searchTerm}`
+    callServer(url);
 }
 
