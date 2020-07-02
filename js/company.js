@@ -2,6 +2,7 @@ const getParams = (key) => {
     let urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(key);
 };
+
 const createCompanyProfileUrl = () => {
     const {apiKey} = StockExchangeStore;
     let symbol = getParams('symbol');

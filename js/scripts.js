@@ -10,7 +10,28 @@ function grabElements() {
     StockExchangeStore.link = document.querySelector('#company-link');
     StockExchangeStore.stockPrice = document.querySelector('#stock-price');
     StockExchangeStore.stockChanges = document.querySelector('#stock-changes');
+    StockExchangeStore.baseUrl = 'https://financialmodelingprep.com/api/v3';
 
+}
+
+async function searchNasdaqForSymbol(searchTerm) {
+    const {apiKey, baseUrl} = StockExchangeStore;
+    let url = `${baseUrl}/search?query=${searchTerm}&limit=10&exchange=NASDAQ&apikey=${apiKey}`;
+    return callServer(url);
+}
+
+async function fetchCompanyProfile(symbol) {
+    const {apiKey, baseUrl} = StockExchangeStore;
+    let url = `${baseUrl}/company/profile/${symbol}?apikey=${apiKey}`
+    return callServer(url);
+}
+
+async function searchNasdaqWithProfile(searchTerm) {
+    const companies = await searchNasdaqForSymbol(searchTerm);
+    const fetchCompaniesProfiles = companies.map(company => {
+        return fetchCompanyProfile(company.symbol);
+    });
+    return await Promise.all(fetchCompaniesProfiles);
 }
 
 const callServer = async (SERVER_URL) => {
@@ -24,33 +45,12 @@ const addStyle = (span, color) => {
 const showElement = (element) => element.classList.remove("d-none");
 const hideElement = (element) => element.classList.add("d-none");
 
-const getInputValue = () => {
-    return document.querySelector("#input").value;
-}
-
-const isInputValid = (input) => {
-    return (input.length > 0);
-}
-
 const isChangesLessThanZero = (object, span) => {
-    if (object[0].changes < 0) {
+    if (object.changes < 0) {
         addStyle(span, 'red');
     } else {
         addStyle(span, '#90EE90');
     }
 }
 
-const callResultsFromServer = async () => {
-    const {apiKey} = StockExchangeStore;
-    let inputValue = getInputValue();
-    if (isInputValid(inputValue)) {
-        const symbolUrl = `https://financialmodelingprep.com/api/v3/search?query=${inputValue}&limit=10&exchange=NASDAQ&apikey=${apiKey}`;
-        let result = await callServer(symbolUrl);
-        return await Promise.all(result.map(async (company) => {
-            let companyUrl = `https://financialmodelingprep.com/api/v3/profile/${company.symbol}?apikey=${apiKey}`;
-            company.additionalResult = await callServer(companyUrl);
-            return company.additionalResult;
-        }));
-    }
-}
 

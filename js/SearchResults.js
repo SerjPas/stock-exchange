@@ -17,6 +17,7 @@ class SearchResults {
             let img = document.createElement('img');
             let priceSpan = document.createElement('span');
             let companyNameSpan = document.createElement('span');
+            companyNameSpan.className = 'text-wrap';
             let companiesLink = document.createElement('a');
             let button = document.createElement('button');
             button.innerText = 'compare';
@@ -24,13 +25,13 @@ class SearchResults {
             button.addEventListener('click', (() => {
                 this.printObject(companies);
             }));
-            img.src = `${companies[0].image}`;
+            img.src = `${companies.profile.image}`;
             img.classList.add('mr-2', 'img-fluid', 'imgOnSearchResults');
             companyNameSpan.innerHTML = `${highlightedCompanyName}. (${highlightedSymbol})`;
             companiesLink.append(companyNameSpan);
-            companiesLink.href = `./company.html?symbol=${companies[0].symbol}`;
+            companiesLink.href = `./company.html?symbol=${companies.symbol}`;
             companiesLink.target = `_blank`;
-            let stockChange = `(${companies[0].changes})`;
+            let stockChange = `(${companies.profile.changes})`;
             priceSpan.append(stockChange);
             isChangesLessThanZero(companies, priceSpan);
             priceSpan.classList.add('ml-2');
@@ -39,20 +40,18 @@ class SearchResults {
         });
     }
 
-    printObject(array) {
-        array.forEach((company) => {
-            console.log(company);
-        });
-
-    }
-
-    highlight(objectInsideArray, searchValue) {
-        let highlightedCompanyName = objectInsideArray[0].companyName.replace(new RegExp(searchValue, "gi"),
+    highlight(companies, searchValue) {
+        let highlightedCompanyName = companies.profile.companyName.replace(new RegExp(searchValue, "gi"),
             (match) => (`<mark> ${match} </mark> `));
-        let highlightedSymbol = objectInsideArray[0].symbol.replace(new RegExp(searchValue, "gi"),
+        let highlightedSymbol = companies.symbol.replace(new RegExp(searchValue, "gi"),
             (match) => (`<mark> ${match} </mark>`));
         return {highlightedCompanyName, highlightedSymbol};
     }
+
+    printObject(company) {
+            console.log(company);
+    }
+
 
     refreshResults = () => {
         this.placeForResult.innerText = '';

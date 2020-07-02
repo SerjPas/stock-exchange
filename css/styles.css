@@ -11,6 +11,9 @@ body {
     min-height: 100vh;
     height: 100%;
 }
+.text-wrap{
+
+}
 
 #results li {
     padding: 18px 0;
@@ -20,7 +23,6 @@ body {
     line-height: 23px;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
     display: block;
     width: 100%;
 }
@@ -93,7 +95,6 @@ body {
     color: lightgreen;
 }
 
-
 .imgOnSearchResults {
     height: 60px;
     width: 60px;
@@ -101,5 +102,6 @@ body {
 
 mark {
     background-color: #FFFF00;
+    padding: 0;
 }
 

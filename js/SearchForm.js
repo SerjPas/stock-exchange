@@ -1,6 +1,7 @@
 class SearchForm {
     constructor(form) {
         this.form = form;
+        this.renderSearchForm();
     }
 
     renderSearchForm = () => {
@@ -20,6 +21,14 @@ class SearchForm {
         button.textContent = 'Search';
         form.append(input, button);
         fragment.appendChild(form);
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            let loader = document.querySelector('#loader');
+            showElement(loader);
+            const input = document.querySelector('#input');
+            this.searchCompanies(input.value);
+        });
+
         this.form.appendChild(fragment);
         this.renderSpinner();
     }
@@ -36,14 +45,12 @@ class SearchForm {
         this.form.appendChild(fragment);
     }
 
-    onSearch = async (callback) => {
-        document.getElementById("input-form").onsubmit = async (e) => {
-            let loader = document.querySelector('#loader');
-            e.preventDefault();
-            showElement(loader);
-            let companies = await callResultsFromServer();
-            callback(companies);
-            hideElement(loader);
-        };
+    async searchCompanies(searchTerm) {
+        const companies = await searchNasdaqWithProfile(searchTerm);
+        this.onSearchCallback(companies);
+    }
+
+    onSearch(callback) {
+        this.onSearchCallback = callback;
     }
 }

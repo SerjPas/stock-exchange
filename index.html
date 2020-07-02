@@ -40,10 +40,12 @@
         const marquee = new Marquee(document.getElementById('marquee'), `https://financialmodelingprep.com/api/v3/quotes/nyse?apikey=${apiKey}`);
         await marquee.load();
         const form = new SearchForm(document.getElementById('form'));
-        form.renderSearchForm();
         const results = new SearchResults(document.getElementById('results'));
         await form.onSearch((companies) => {
             results.renderResults(companies);
+            let loader = document.querySelector('#loader');
+            hideElement(loader);
+
         });
     })();
     </script>
