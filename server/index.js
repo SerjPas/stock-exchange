@@ -23,7 +23,7 @@ async function searchNasdaqForSymbol(searchTerm) {
 
 async function fetchForCompanyProfile(symbol) {
     const {apiKey, baseUrl} = StockExchangeStore;
-    let url = `${baseUrl}/company/profile/${symbol}?apikey=${apiKey}`
+    let url = `${baseUrl}/company/profile/${symbol}?apikey=${apiKey}`;
     return callServer(url);
 }
 
@@ -46,7 +46,7 @@ app.get('/search', (req, res) => {
     const searchQuery = req.query.query;
     searchNasdaqWithProfile(searchQuery).then((companiesWithProfiles)=>{
         res.send(companiesWithProfiles);
-    });
+    })
 });
 
 app.listen(port, () => console.log(`listening at http://localhost:${port}`));

@@ -22,18 +22,20 @@ const callServer = async (SERVER_URL) => {
 const addStyle = (span, color) => {
     span.style.color = color;
 }
+
 const showElement = (element) => element.classList.remove("d-none");
 const hideElement = (element) => element.classList.add("d-none");
 
 const isChangesLessThanZero = (object, span) => {
-    if (object.changes < 0) {
+    if (object.profile.changes < 0) {
         addStyle(span, 'red');
     } else {
         addStyle(span, '#90EE90');
     }
 }
+
 async function searchInInternalServer(searchTerm) {
-    let url = `http://localhost:3000/search?query=${searchTerm}`
-    callServer(url);
+    let url = `http://localhost:3000/search?query=${searchTerm}`;
+    return await callServer(url);
 }
 

@@ -52,7 +52,6 @@ class SearchResults {
             console.log(company);
     }
 
-
     refreshResults = () => {
         this.placeForResult.innerText = '';
     }

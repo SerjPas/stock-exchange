@@ -28,6 +28,7 @@ class SearchForm {
             const input = document.querySelector('#input');
             this.searchCompanies(input.value);
         });
+
         this.form.appendChild(fragment);
         this.renderSpinner();
     }
