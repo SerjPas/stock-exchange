@@ -3,6 +3,8 @@ const app = express();
 const cors = require('cors');
 const fetch = require('node-fetch');
 const port = 3000;
+const MongoClient = require('mongodb').MongoClient;
+const url = 'mongodb://127.0.0.1:27017'// Connection URL
 
 app.use(cors());
 
@@ -42,11 +44,21 @@ const callServer = async (SERVER_URL) => {
 
 app.get('/', (req, res) => res.send('Node Project Server!'));
 
-app.get('/search', (req, res) => {
+app.get('/search', async (req, res) => {
     const searchQuery = req.query.query;
-    searchNasdaqWithProfile(searchQuery).then((companiesWithProfiles)=>{
+    searchNasdaqWithProfile(searchQuery).then((companiesWithProfiles) => {
         res.send(companiesWithProfiles);
-    })
+        MongoClient.connect(url, {useUnifiedTopology: true}, function (err, db) {
+            if (err) throw err;
+            let dbo = db.db("nodeProject");
+            let myObj = {date: new Date(), searchQuery: searchQuery, searchResult: companiesWithProfiles};
+            dbo.collection("search").insertOne(myObj, function (err, res) {
+                if (err) throw err;
+                console.log("1 document inserted.");
+                db.close();
+            });
+        });
+    });
 });
 
 app.listen(port, () => console.log(`listening at http://localhost:${port}`));
