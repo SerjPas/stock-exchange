@@ -45,12 +45,12 @@ class SearchForm {
         this.form.appendChild(fragment);
     }
 
-    async searchCompanies(searchTerm) {
+    searchCompanies = async (searchTerm) => {
         const companies = await searchInInternalServer(searchTerm);
         this.onSearchCallback(companies);
     }
 
-    onSearch(callback) {
+    onSearch = (callback) => {
         this.onSearchCallback = callback;
     }
 }

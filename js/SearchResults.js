@@ -34,22 +34,22 @@ class SearchResults {
             let stockChange = `(${companies.profile.changes})`;
             priceSpan.append(stockChange);
             isChangesLessThanZero(companies, priceSpan);
-            priceSpan.classList.add('ml-2');
+            priceSpan.classList.add('ml-auto');
             li.append(img, companiesLink, priceSpan, button);
             ul.appendChild(li);
         });
     }
 
-    highlight(companies, searchValue) {
+    highlight = (companies, searchValue) => {
         let highlightedCompanyName = companies.profile.companyName.replace(new RegExp(searchValue, "gi"),
-            (match) => (`<mark> ${match} </mark> `));
+            (match) => (`<mark><a href="./company.html?symbol=${companies.symbol}" target = \`_blank\`>${match}</a></mark>`));
         let highlightedSymbol = companies.symbol.replace(new RegExp(searchValue, "gi"),
-            (match) => (`<mark> ${match} </mark>`));
+            (match) => (`<mark><a href="./company.html?symbol=${companies.symbol}" target = \`_blank\`>${match}</a></mark>`));
         return {highlightedCompanyName, highlightedSymbol};
     }
 
-    printObject(company) {
-            console.log(company);
+    printObject = (company) => {
+        console.log(company);
     }
 
     refreshResults = () => {

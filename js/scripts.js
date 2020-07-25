@@ -30,11 +30,11 @@ const isChangesLessThanZero = (object, span) => {
     if (object.profile.changes < 0) {
         addStyle(span, 'red');
     } else {
-        addStyle(span, '#90EE90');
+        addStyle(span, '#27A844');
     }
 }
 
-async function searchInInternalServer(searchTerm) {
+const searchInInternalServer = async (searchTerm) => {
     let url = `http://localhost:3000/search?query=${searchTerm}`;
     return await callServer(url);
 }

@@ -4,7 +4,7 @@ const cors = require('cors');
 const fetch = require('node-fetch');
 const port = 3000;
 const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://127.0.0.1:27017'// Connection URL
+const databaseUrl = 'mongodb://127.0.0.1:27017'// Connection URL
 
 app.use(cors());
 
@@ -17,19 +17,19 @@ function grabElements() {
 
 grabElements();
 
-async function searchNasdaqForSymbol(searchTerm) {
+const searchNasdaqForSymbol = async (searchTerm) => {
     const {apiKey, baseUrl} = StockExchangeStore;
     let url = `${baseUrl}/search?query=${searchTerm}&limit=10&exchange=NASDAQ&apikey=${apiKey}`;
     return callServer(url);
 }
 
-async function fetchForCompanyProfile(symbol) {
+const fetchForCompanyProfile = async (symbol) => {
     const {apiKey, baseUrl} = StockExchangeStore;
     let url = `${baseUrl}/company/profile/${symbol}?apikey=${apiKey}`;
     return callServer(url);
 }
 
-async function searchNasdaqWithProfile(searchTerm) {
+const searchNasdaqWithProfile = async (searchTerm) => {
     const companies = await searchNasdaqForSymbol(searchTerm);
     const fetchCompaniesProfiles = companies.map(company => {
         return fetchForCompanyProfile(company.symbol);
@@ -48,11 +48,11 @@ app.get('/search', async (req, res) => {
     const searchQuery = req.query.query;
     searchNasdaqWithProfile(searchQuery).then((companiesWithProfiles) => {
         res.send(companiesWithProfiles);
-        MongoClient.connect(url, {useUnifiedTopology: true}, function (err, db) {
+        MongoClient.connect(databaseUrl, {useUnifiedTopology: true}, function (err, db) {
             if (err) throw err;
-            let dbo = db.db("nodeProject");
+            let database = db.db("nodeProject");
             let myObj = {date: new Date(), searchQuery: searchQuery, searchResult: companiesWithProfiles};
-            dbo.collection("search").insertOne(myObj, function (err, res) {
+            database.collection("search").insertOne(myObj, function (err, res) {
                 if (err) throw err;
                 console.log("1 document inserted.");
                 db.close();
@@ -60,5 +60,18 @@ app.get('/search', async (req, res) => {
         });
     });
 });
+
+app.get('/search-history', (req, res) => {
+    MongoClient.connect(databaseUrl, {useUnifiedTopology: true}, function (err, db) {
+        if (err) throw err;
+        let dbo = db.db("nodeProject");
+        dbo.collection("search").find({}).toArray(function (err, result) {
+            if (err) throw err;
+            res.send(result);
+            db.close();
+        });
+    });
+});
+
 
 app.listen(port, () => console.log(`listening at http://localhost:${port}`));

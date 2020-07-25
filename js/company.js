@@ -13,13 +13,13 @@ const getStockHistory = async () => {
     const {apiKey} = StockExchangeStore;
     let symbol = getParams('symbol');
     const SERVER_URL = `https://financialmodelingprep.com/api/v3/historical-price-full/${symbol}?serietype=line&apikey=${apiKey}`;
-    let stockHistoryArray = await callServer(SERVER_URL);
-    return stockHistoryArray.historical;
+    let stockHistory = await callServer(SERVER_URL);
+    return stockHistory.historical;
 
 }
 
 const createAChart = async () => {
-    let array = await getStockHistory();
+    let stockHistoryArray = await getStockHistory();
     let ctxL = document.getElementById("myChart").getContext('2d');
     let myLineChart = new Chart(ctxL, {
         type: 'line',
@@ -38,8 +38,8 @@ const createAChart = async () => {
         }
     });
     for (let i = 30; i >= 0; i--) {
-        myLineChart.data.labels[i] = array[i].date;
-        myLineChart.data.datasets[0].data[i] = array[i].close;
+        myLineChart.data.labels[i] = stockHistoryArray[i].date;
+        myLineChart.data.datasets[0].data[i] = stockHistoryArray[i].close;
     }
     myLineChart.update();
 }
@@ -47,21 +47,21 @@ const createAChart = async () => {
 const insertData = async () => {
     const {img, companyName, description, link, stockPrice, stockChanges} = StockExchangeStore;
     let profileUrl = createCompanyProfileUrl();
-    let data = await callServer(profileUrl);
-    for (let company of data) {
+    let companyProfileData = await callServer(profileUrl);
+    for (let company of companyProfileData) {
         img.setAttribute("src", `${company.image}`);
         companyName.innerHTML = `<a href="${company.website}"> ${company.companyName}</a>`;
         description.innerText = company.description;
         link.setAttribute('href', `${company.website}`);
         let textnode = document.createTextNode(`${company.website}`);
         link.appendChild(textnode);
-        stockPrice.innerText = 'Stock price:' + '$' + company.price;
+        stockPrice.innerText = 'Stock price: ' + '$' + company.price;
         if (company.changes < 0) {
             stockChanges.innerText = `(${company.changes} %)`;
             stockChanges.style.color = 'red';
         } else {
             stockChanges.innerText = `(${company.changes} %)`;
-            stockChanges.style.color = '#90EE90';
+            stockChanges.style.color = '#27A844';
         }
     }
 

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <div id="list">
+    </div>
+    <button id="button" type="button" class="btn btn-primary">Get Results</button>
+</div>
+<script src="js/Marquee.js"></script>
+<script src="./js/scripts.js"></script>
+<script>
+
+    const ul = document.createElement('ul');
+    document.getElementById('list').appendChild(ul);
+    const renderResults = (arr) => {
+        let newArr = arr.sort((a,b) =>{
+            return new Date(b.date) - new Date(a.date);
+        });
+        console.log("new", newArr)
+        const list = newArr.map(search => {
+            return `
+        <li class="list-group-item">
+          <span>Date: ${search.date}.<span/>
+          <span style="margin-left: 1rem">Search query:<a href="/" style="margin-left: 1rem">${search.searchQuery}.<a/></span>
+          <span style="margin-left: 1rem">Result: ${search.searchResult.map(search => search.symbol)}<span/>
+        </li>
+      `;
+        });
+        ul.innerHTML = list.join('');
+    }
+
+    function getFromDatabase() {
+        let url = `http://localhost:3000/search-history`;
+        return callServer(url)
+    }
+
+    document.getElementById('button').addEventListener('click', (() => {
+        getFromDatabase().then(arr => renderResults(arr));
+    }));
+
+</script>
+
+</body>
+</html>
